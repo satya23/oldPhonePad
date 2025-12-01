@@ -9,6 +9,27 @@ namespace OldPhonePad
     {
         static void Main(string[] args)
         {
+            // Command line argument mode - output only the result
+            if (args.Length > 0)
+            {
+                // Treat all arguments as part of the input, joined by spaces.
+                // This allows unquoted inputs that contain spaces (e.g. 4433555 555666#).
+                string rawInput = string.Join(" ", args);
+
+                try
+                {
+                    string result = OldPhonePadConverter.OldPhonePad(rawInput);
+                    Console.WriteLine(result);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    Environment.Exit(1);
+                }
+                return;
+            }
+
+            // Interactive mode - show header and test cases
             Console.WriteLine("Old Phone Pad Converter");
             Console.WriteLine("======================\n");
 
@@ -43,44 +64,26 @@ namespace OldPhonePad
                 }
             }
 
-            // Interactive mode
-            if (args.Length == 0)
+            Console.WriteLine("Enter interactive mode (type 'exit' to quit):\n");
+            
+            while (true)
             {
-                Console.WriteLine("Enter interactive mode (type 'exit' to quit):\n");
+                Console.Write("Input: ");
+                string? input = Console.ReadLine();
                 
-                while (true)
+                if (string.IsNullOrWhiteSpace(input) || input.ToLower() == "exit")
                 {
-                    Console.Write("Input: ");
-                    string? input = Console.ReadLine();
-                    
-                    if (string.IsNullOrWhiteSpace(input) || input.ToLower() == "exit")
-                    {
-                        break;
-                    }
-
-                    try
-                    {
-                        string result = OldPhonePadConverter.OldPhonePad(input);
-                        Console.WriteLine($"Output: {result}\n");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error: {ex.Message}\n");
-                    }
+                    break;
                 }
-            }
-            else
-            {
-                // Command line argument mode
+
                 try
                 {
-                    string result = OldPhonePadConverter.OldPhonePad(args[0]);
-                    Console.WriteLine($"Output: {result}");
+                    string result = OldPhonePadConverter.OldPhonePad(input);
+                    Console.WriteLine($"Output: {result}\n");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    Environment.Exit(1);
+                    Console.WriteLine($"Error: {ex.Message}\n");
                 }
             }
         }

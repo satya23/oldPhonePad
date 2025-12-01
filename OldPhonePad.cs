@@ -33,6 +33,7 @@ namespace OldPhonePad
         /// - A space (' ') indicates a pause, allowing the same button to be used for consecutive letters
         /// - An asterisk ('*') acts as a backspace, removing the last character
         /// - A hash ('#') indicates the end of input and triggers the send action
+        /// - Any characters other than digits 2-9, space, '*' and '#' are ignored
         /// 
         /// </summary>
         /// <param name="input">The input string containing digits, spaces, asterisks, and ending with '#'</param>
@@ -76,13 +77,18 @@ namespace OldPhonePad
                 // Handle backspace
                 if (currentChar == '*')
                 {
-                    if (result.Length > 0)
+                    // If we have a pending button press, cancel it instead of removing from result
+                    if (currentButton.HasValue)
                     {
-                        result.Length--; // Remove last character
+                        // Cancel the current button press
+                        currentButton = null;
+                        pressCount = 0;
                     }
-                    // Reset current button state after backspace
-                    currentButton = null;
-                    pressCount = 0;
+                    else if (result.Length > 0)
+                    {
+                        // No pending press, remove last character from result
+                        result.Length--;
+                    }
                     index++;
                     continue;
                 }
@@ -111,7 +117,7 @@ namespace OldPhonePad
                     }
                     else
                     {
-                        // Different button - process the previous one first
+                        // Different button - process the previous one first (if any)
                         if (currentButton.HasValue)
                         {
                             result.Append(GetCharacterForButton(currentButton.Value, pressCount));
@@ -148,7 +154,7 @@ namespace OldPhonePad
         /// <returns>The corresponding character</returns>
         private static char GetCharacterForButton(char button, int pressCount)
         {
-            if (!KeypadMapping.TryGetValue(button, out string letters))
+            if (!KeypadMapping.TryGetValue(button, out string? letters) || letters == null)
             {
                 throw new ArgumentException($"Invalid button: {button}", nameof(button));
             }

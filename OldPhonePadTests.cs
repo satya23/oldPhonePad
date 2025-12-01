@@ -152,6 +152,34 @@ namespace OldPhonePad.Tests
         }
 
         [Fact]
+        public void OldPhonePad_BackspaceCancelsPendingPress()
+        {
+            // Arrange
+            string input = "22*#";
+
+            // Act
+            string result = OldPhonePadConverter.OldPhonePad(input);
+
+            // Assert
+            // Two presses would be 'B', but the backspace cancels the pending character before it is committed
+            Assert.Equal(string.Empty, result);
+        }
+
+        [Fact]
+        public void OldPhonePad_InvalidCharactersAreIgnored()
+        {
+            // Arrange
+            string input = "2X3#"; // 'X' should be ignored
+
+            // Act
+            string result = OldPhonePadConverter.OldPhonePad(input);
+
+            // Assert
+            // '2' -> A, pause due to invalid 'X' is effectively ignored, then '3' -> D
+            Assert.Equal("AD", result);
+        }
+
+        [Fact]
         public void OldPhonePad_ComplexSequence_HandlesCorrectly()
         {
             // Arrange
@@ -194,10 +222,10 @@ namespace OldPhonePad.Tests
         public void OldPhonePad_NullInput_ThrowsArgumentNullException()
         {
             // Arrange
-            string input = null;
+            string? input = null;
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => OldPhonePadConverter.OldPhonePad(input));
+            Assert.Throws<ArgumentNullException>(() => OldPhonePadConverter.OldPhonePad(input!));
         }
 
         [Fact]

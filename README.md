@@ -2,6 +2,8 @@
 
 A production-ready C# solution for converting old phone keypad input sequences into text output.
 
+> **Note**: This project was created with AI assistance. The project structure, repository scaffolding, and initial code organization were generated using AI tools (Cursor AI/Claude/ChatGPT). See the [AI-Assisted Development](#ai-assisted-development) section for more details.
+
 ## Problem Description
 
 This solution implements a converter for an old phone keypad system where:
@@ -71,16 +73,71 @@ OldPhonePadConverter.OldPhonePad("8 88777444666*664#")     // => "TURING"
 - .NET 8.0 SDK or later
 - Visual Studio 2022, VS Code, or Rider (optional)
 
+### Installing .NET SDK
+
+**On macOS (using Homebrew):**
+```bash
+brew install --cask dotnet-sdk
+```
+
+**On macOS (direct download):**
+1. Visit https://dotnet.microsoft.com/download
+2. Download .NET 8.0 SDK for macOS
+3. Run the installer
+
+**On Linux:**
+```bash
+# Ubuntu/Debian
+wget https://dot.net/v1/dotnet-install.sh
+chmod +x ./dotnet-install.sh
+./dotnet-install.sh --channel 8.0
+
+# Or use package manager
+sudo apt-get update
+sudo apt-get install -y dotnet-sdk-8.0
+```
+
+**On Windows:**
+1. Visit https://dotnet.microsoft.com/download
+2. Download .NET 8.0 SDK installer
+3. Run the installer
+
+**Verify installation:**
+```bash
+dotnet --version
+```
+You should see `8.0.x` or higher.
+
 ### Build
 
+Build the entire solution (both main project and tests):
+
 ```bash
-dotnet build
+dotnet build OldPhonePad.sln
+```
+
+Or build just the main project:
+
+```bash
+dotnet build OldPhonePad.csproj
 ```
 
 ### Run Tests
 
 ```bash
-dotnet test
+dotnet test OldPhonePad.sln
+```
+
+Or run tests for the test project directly:
+
+```bash
+dotnet test OldPhonePadTests.csproj
+```
+
+To run tests with minimal output (suppress default test messages):
+
+```bash
+dotnet test OldPhonePadTests.csproj --logger "console;verbosity=quiet"
 ```
 
 ### Run Console Application
@@ -128,7 +185,7 @@ The solution includes comprehensive unit tests covering:
 Run tests with:
 
 ```bash
-dotnet test
+dotnet test OldPhonePad.sln
 ```
 
 ## Error Handling
@@ -148,9 +205,21 @@ The implementation includes robust error handling:
 
 ## AI-Assisted Development
 
+This project was created with the assistance of AI tools. The project structure, repository scaffolding, code organization, and initial implementation were generated using AI assistance.
+
+### AI Tools Used
+
+- **Cursor AI** / **Claude (Anthropic)** / **ChatGPT (OpenAI)**
+- **Purpose**: 
+  - Project structure creation and repository scaffolding
+  - Code organization and file structure setup
+  - Documentation generation
+  - Test case scaffolding
+  - Build configuration and project file setup
+
 ### AI Prompt Used
 
-If I were to AI-prompt this solution, I would use the following prompt with **Claude (Anthropic)** or **ChatGPT (OpenAI)**:
+The following prompt was used to generate this solution:
 
 ```
 Create a production-ready C# solution for an old phone keypad converter with the following requirements:
@@ -171,15 +240,20 @@ Test cases:
 - "8 88777444666*664#" => "TURING"
 ```
 
-**AI Tool**: Claude (Anthropic) or ChatGPT (OpenAI)  
-**Purpose**: Code structure, documentation, and test case generation
+### What Was AI-Generated
 
-**Note**: While AI tools were used for code organization and documentation, the core algorithm and problem-solving approach were developed manually to ensure understanding and correctness.
+- ✅ Project structure and file organization
+- ✅ Repository scaffolding (`.csproj`, `.sln`, `.gitignore`)
+- ✅ Initial code structure and class definitions
+- ✅ XML documentation templates
+- ✅ Test project setup and test case scaffolding
+- ✅ Build configuration and package references
 
-## License
+### What Was Manually Developed
 
-This solution is provided as part of a coding challenge submission.
+- ✅ Core algorithm logic and problem-solving approach
+- ✅ Algorithm refinement and bug fixes
+- ✅ Test case validation and edge case handling
+- ✅ Code review and optimization
 
-## Author
-
-Created as a demonstration of production-ready C# development practices.
+**Note**: While AI tools were extensively used for project scaffolding and code structure, the core algorithm implementation, debugging, and problem-solving were done manually to ensure correctness and understanding.
